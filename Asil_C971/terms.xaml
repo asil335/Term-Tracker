@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Asil_C971.terms"
+             Title="Terms" HideSoftInputOnTapped="True">
+
+    <Grid RowDefinitions="*, Auto" Padding="25" BackgroundColor="Transparent">
+        <!-- Grid.GestureRecognizers>
+            <TapGestureRecognizer Tapped="Onemptytap" />
+        </Grid.GestureRecognizers> -->
+
+        <CollectionView x:Name="termsView" Grid.Row="0">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BorderColor="Gray" Margin="0,17" Padding="10" CornerRadius="15" BackgroundColor="lightgray">
+                        <Grid ColumnDefinitions="Auto, *, Auto, Auto">
+                            <!-- Radio button has freaky bugs. fix later -->
+                            <RadioButton x:Name="selectbox" Grid.Column="0" VerticalOptions="Center"
+                                    GroupName="TermSelection" CheckedChanged="Checked" />
+
+                            <Entry Text="{Binding Title}" TextColor="Black" Grid.Column="1" Placeholder="Term Title"
+                                   VerticalOptions="Center" Unfocused="termEdited" />
+
+                           <StackLayout Grid.Column="2" VerticalOptions="Center" Margin="5,0">
+                                <DatePicker Date="{Binding Start}" TextColor="Black" Format="yyyy-MM-dd" DateSelected="termEdited" />
+                                <DatePicker Date="{Binding End}" TextColor="Black" Format="yyyy-MM-dd" DateSelected="termEdited" />
+                            </StackLayout>
+
+                            <Button Text="&gt;" Grid.Column="3" WidthRequest="45" HeightRequest="45"
+                                    Clicked="coursesClick" CommandParameter="{Binding .}" />
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <StackLayout Grid.Row="5" Orientation="Horizontal" HorizontalOptions="End" Spacing="10" Padding="0,20,0,0">
+            <Button Text="Delete" BackgroundColor="White" TextColor="Black" Clicked="DelClick" />
+            <Button Text="Add" BackgroundColor="White" TextColor="Black" Clicked="AddClick" />
+        </StackLayout>
+
+    </Grid>
+</ContentPage>
