@@ -22,6 +22,7 @@ namespace Asil_C971
 
             _connection = new SQLiteAsyncConnection(_databasePath);
             await _connection.CreateTableAsync<term>();
+            await _connection.CreateTableAsync<course>();
         }
 
         public async Task<List<term>> getTerms()

@@ -104,6 +104,12 @@ namespace Asil_C971
             }
         }
         private async void classClick(object sender, EventArgs e)
-        {}
+        {
+            var button = (Button)sender;
+            if (button.CommandParameter is course t)
+            {
+                await Navigation.PushAsync(new Class(t));
+            }
+        }
     }
 }

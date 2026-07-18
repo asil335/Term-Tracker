@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Asil_C971.Class"
+             Title="Course Details" HideSoftInputOnTapped="True">
+
+    <Grid RowDefinitions="Auto, *, Auto" Padding="15" BackgroundColor="LightGray">
+
+        <Grid Grid.Row="0" ColumnDefinitions="Auto, *, Auto, Auto, Auto, Auto" RowDefinitions="Auto, Auto" RowSpacing="5" Margin="0,0,0,10">
+            <Button Grid.Column="0" Grid.RowSpan="2" Text="Notify me" VerticalOptions="Center" />
+
+            <Label Grid.Row="0" Grid.Column="2" Text="Start:" VerticalOptions="Center" TextColor="Black" />
+            <DatePicker Grid.Row="0" Grid.Column="3" Date="{Binding Start}" Format="yyyy-MM-dd" TextColor="Black" />
+            <Label Grid.Row="1" Grid.Column="2" Text="Due:" VerticalOptions="Center" TextColor="Black" />
+            <DatePicker Grid.Row="1" Grid.Column="3" Date="{Binding End}" Format="yyyy-MM-dd" TextColor="Black" />
+
+            <Label Grid.Row="0" Grid.RowSpan="2" Grid.Column="4" Text="Status:" VerticalOptions="Center" TextColor="Black" Margin="10,0,0,0" />
+            <Picker Grid.Row="0" Grid.RowSpan="2" Grid.Column="5" SelectedItem="{Binding Status}" Title="Status"  TextColor="Black" WidthRequest="90" VerticalOptions="Center">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>In Progress</x:String>
+                        <x:String>Completed</x:String>
+                        <x:String>Dropped</x:String>
+                        <x:String>Plan to Take</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+        </Grid>
+
+        <Grid Grid.Row="1" RowDefinitions="Auto, *" RowSpacing="20">
+
+            <Border Grid.Row="0" Stroke="Gray" StrokeThickness="1" Padding="15" BackgroundColor="Transparent">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="4" />
+                </Border.StrokeShape>
+                <StackLayout Spacing="10">
+                    <Label Text="Instructor:" FontSize="18" FontAttributes="Bold" TextColor="Black"/>
+                    <Entry Text="{Binding ProfName}" Placeholder="Name" TextColor="Black" />
+                    <Entry Text="{Binding profPhone}" Placeholder="Phone" Keyboard="Telephone" TextColor="Black" />
+                    <Entry Text="{Binding profEmail}" Placeholder="Email" Keyboard="Email" TextColor="Black" />
+                </StackLayout>
+            </Border>
+
+
+        </Grid>
+
+        <Entry Grid.Row="2" Text="{Binding Title}"
+                   TextColor="Black" FontSize="20" FontAttributes="Bold"
+                   HorizontalOptions="Start" VerticalOptions="End" />
+        <StackLayout Grid.Row="2" HorizontalOptions="End" Padding="0,20,0,0">
+            <Button Text="Save" BackgroundColor="White" TextColor="Black" Clicked="save" />
+        </StackLayout>
+
+    </Grid>
+</ContentPage>

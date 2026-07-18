@@ -20,5 +20,9 @@ namespace Asil_C971
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
         public int termId { get; set; }
+        public string profEmail { get; set; }
+        public string ProfName { get; set; }
+        public string profPhone { get; set; }
+        public string Status { get; set; }
     }
 }
