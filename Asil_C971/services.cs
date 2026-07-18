@@ -44,5 +44,30 @@ namespace Asil_C971
             await init();
             return await _connection.DeleteAsync(term);
         }
+        public async Task<List<course>> getCourses()
+        {
+            await init();
+            return await _connection.Table<course>().ToListAsync();
+        }
+
+        public async Task<int> saveCourse(course course)
+        {
+            await init();
+            if (course.Id != 0)
+                return await _connection.UpdateAsync(course);
+            else
+                return await _connection.InsertAsync(course);
+        }
+
+        public async Task<int> delCourse(course course)
+        {
+            await init();
+            return await _connection.DeleteAsync(course);
+        }
+        public async Task<List<course>> getTermCourses(int termId)
+        {
+            await init();
+            return await _connection.Table<course>().Where(c => c.termId == termId).ToListAsync();
+        }
     }
 }

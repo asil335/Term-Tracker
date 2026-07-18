@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Asil_C971.courses"
+             Title="Courses" HideSoftInputOnTapped="True">
+
+    <Grid RowDefinitions="*, Auto" Padding="25" BackgroundColor="Transparent">
+        <!-- Grid.GestureRecognizers>
+            <TapGestureRecognizer Tapped="Onemptytap" />
+        </Grid.GestureRecognizers> -->
+
+        <CollectionView x:Name="coursesView" Grid.Row="0">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BorderColor="Gray" Margin="0,17" Padding="10" CornerRadius="15" BackgroundColor="lightgray">
+                        <Grid ColumnDefinitions="Auto, *, Auto, Auto">
+                            <!-- Radio button has freaky bugs. fix later -->
+                            <RadioButton x:Name="selectbox" Grid.Column="0" VerticalOptions="Center"
+                                    GroupName="CourseSelection" CheckedChanged="Checked" />
+
+                            <Entry Text="{Binding Title}" TextColor="Black" Grid.Column="1" Placeholder="Course Title"
+                                   VerticalOptions="Center" Unfocused="courseEdited" />
+
+                           <StackLayout Grid.Column="2" VerticalOptions="Center" Margin="5,0">
+                                <DatePicker Date="{Binding Start}" TextColor="Black" Format="yyyy-MM-dd" DateSelected="courseEdited" />
+                                <DatePicker Date="{Binding End}" TextColor="Black" Format="yyyy-MM-dd" DateSelected="courseEdited" />
+                            </StackLayout>
+
+                            <Button Text="&gt;" Grid.Column="3" WidthRequest="45" HeightRequest="45"
+                                    Clicked="classClick" CommandParameter="{Binding .}" />
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Grid Grid.Row="1" ColumnDefinitions="*, Auto" Padding="0,20,0,0">
+            <!-- All information from C1 to satisfy the requirement for a "detailed view." Date added from wireframe, as wireframe instructions didn't include this detail. -->
+            <Frame Grid.Column="0" BorderColor="transparent" Padding="10" CornerRadius="15" BackgroundColor="Transparent" Margin="0,0,10,0">
+                <StackLayout>
+                    <Entry Text="{Binding Title}" Placeholder="Term Title" TextColor="White" FontSize="20" FontAttributes="Bold" Unfocused="termEdited" Completed="termEdited" />
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                        <DatePicker Date="{Binding Start}" TextColor="White" Format="yyyy-MM-dd" DateSelected="termEdited" />
+                        <DatePicker Date="{Binding End}" TextColor="white" Format="yyyy-MM-dd" DateSelected="termEdited" />
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+
+            <StackLayout Grid.Column="1" Orientation="Horizontal" VerticalOptions="End" Spacing="10">
+                <Button Text="Delete" BackgroundColor="White" TextColor="Black" Clicked="DelClick" />
+                <Button Text="Add" BackgroundColor="White" TextColor="Black" Clicked="AddClick" />
+            </StackLayout>
+
+        </Grid>
+    </Grid>
+</ContentPage>

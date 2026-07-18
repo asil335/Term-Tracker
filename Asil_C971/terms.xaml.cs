@@ -41,12 +41,12 @@ namespace Asil_C971
         private async void AddClick(object sender, EventArgs e)
         {
             selectedTerm.Clear();
-
+            int n = termList.Count + 1;
             var newTerm = new term
             {
-                Title = "New Term",
-                Start = DateTime.Now,
-                End = DateTime.Now.AddMonths(6)
+                Title = $"Term {n}",
+                Start = DateTime.Now.AddMonths(6* (n - 1)),
+                End = DateTime.Now.AddMonths(6*(n - 1)+6)
             };
 
             await _db.saveTerm(newTerm);
@@ -90,13 +90,8 @@ namespace Asil_C971
             var button = (Button)sender;
             if (button.CommandParameter is term t)
             {
+                await Navigation.PushAsync(new courses(t));
             }
         }
-
-        //private void Onemptytap(object sender, EventArgs e)
-        //{
-        //    _radio.IsChecked = false;
-        //    selectedTerm.Clear();
-        //} no time for qol
+        }
     }
-}
