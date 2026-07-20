@@ -67,10 +67,15 @@ namespace Asil_C971
         private void Checked(object sender, CheckedChangedEventArgs e)
         {
             var radioButton = (RadioButton)sender;
-            var c = (course)radioButton.BindingContext;
+            if (radioButton.BindingContext is not course c) return;
 
             if (e.Value)
             {
+                if (_radio != null && _radio != radioButton)
+                {
+                    _radio.IsChecked = false;
+                }
+
                 _radio = radioButton;
                 selectedCourse.Clear();
                 selectedCourse.Add(c);
@@ -92,6 +97,12 @@ namespace Asil_C971
             var element = (BindableObject)sender;
             if (element.BindingContext is course c)
             {
+                if (c.Start > c.End)
+                {
+                    await DisplayAlert("Invalid Entry", "Start date cannot be after the end date.", "OK");
+                    await coursesLoad();
+                    return;
+                }
                 await _db.saveCourse(c);
             }
         }
@@ -100,6 +111,11 @@ namespace Asil_C971
             var element = (BindableObject)sender;
             if (element.BindingContext is term t)
             {
+                if (t.Start > t.End)
+                {
+                    await DisplayAlert("Invalid Entry", "Start date cannot be after the end date.", "OK");
+                    return;
+                }
                 await _db.saveTerm(t);
             }
         }

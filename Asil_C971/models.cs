@@ -24,5 +24,16 @@ namespace Asil_C971
         public string ProfName { get; set; }
         public string profPhone { get; set; }
         public string Status { get; set; }
+        public string Notes { get; set; }
     }
-}
+    public class test
+    {
+        [PrimaryKey, AutoIncrement]
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public DateTime End { get; set; }
+        public int classId { get; set; }
+        public bool Type { get; set; }
+        }
+
+    }

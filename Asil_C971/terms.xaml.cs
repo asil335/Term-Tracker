@@ -56,10 +56,16 @@ namespace Asil_C971
         private void Checked(object sender, CheckedChangedEventArgs e)
         {
             var radioButton = (RadioButton)sender;
-            var t = (term)radioButton.BindingContext;
+
+            if (radioButton.BindingContext is not term t) return;
 
             if (e.Value)
             {
+                if (_radio != null && _radio != radioButton)
+                {
+                    _radio.IsChecked = false;
+                }
+
                 _radio = radioButton;
                 selectedTerm.Clear();
                 selectedTerm.Add(t);
@@ -81,6 +87,12 @@ namespace Asil_C971
             var element = (BindableObject)sender;
             if (element.BindingContext is term t)
             {
+                if (t.Start > t.End)
+                {
+                    await DisplayAlert("Invalid Entry", "Start date cannot be after the end date.", "OK");
+                    await termsLoad();
+                    return;
+                }
                 await _db.saveTerm(t);
             }
         }

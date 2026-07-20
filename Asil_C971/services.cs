@@ -23,6 +23,7 @@ namespace Asil_C971
             _connection = new SQLiteAsyncConnection(_databasePath);
             await _connection.CreateTableAsync<term>();
             await _connection.CreateTableAsync<course>();
+            await _connection.CreateTableAsync<test>();
         }
 
         public async Task<List<term>> getTerms()
@@ -69,6 +70,26 @@ namespace Asil_C971
         {
             await init();
             return await _connection.Table<course>().Where(c => c.termId == termId).ToListAsync();
+        }
+        public async Task<List<test>> getTests(int courseId)
+        {
+            await init();
+            return await _connection.Table<test>().Where(t => t.classId == courseId).ToListAsync();
+        }
+
+        public async Task<int> saveTests(test t)
+        {
+            await init();
+            if (t.Id != 0)
+                return await _connection.UpdateAsync(t);
+            else
+                return await _connection.InsertAsync(t);
+        }
+
+        public async Task<int> delTests(test t)
+        {
+            await init();
+            return await _connection.DeleteAsync(t);
         }
     }
 }

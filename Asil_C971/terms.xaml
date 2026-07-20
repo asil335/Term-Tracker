@@ -14,9 +14,8 @@
                 <DataTemplate>
                     <Frame BorderColor="Gray" Margin="0,17" Padding="10" CornerRadius="15" BackgroundColor="lightgray">
                         <Grid ColumnDefinitions="Auto, *, Auto, Auto">
-                            <!-- Radio button has freaky bugs. fix later -->
                             <RadioButton x:Name="selectbox" Grid.Column="0" VerticalOptions="Center"
-                                    GroupName="TermSelection" CheckedChanged="Checked" />
+                                    CheckedChanged="Checked" />
 
                             <Entry Text="{Binding Title}" TextColor="Black" Grid.Column="1" Placeholder="Term Title"
                                    VerticalOptions="Center" Unfocused="termEdited" />
