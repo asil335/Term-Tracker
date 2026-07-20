@@ -32,6 +32,7 @@ namespace Asil_C971
         public int Id { get; set; }
         public string Title { get; set; }
         public DateTime End { get; set; }
+        public DateTime Start { get; set; }
         public int classId { get; set; }
         public bool Type { get; set; }
         }

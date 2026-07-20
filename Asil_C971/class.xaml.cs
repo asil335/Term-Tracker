@@ -96,7 +96,8 @@ namespace Asil_C971
                     Description = $"{_thisCourse.Title} starts this week",
                     Schedule = new NotificationRequestSchedule
                     {
-                        NotifyTime = _thisCourse.Start.AddDays(-7) // tested with DateTime.Now.AddSeconds(5)
+                        NotifyTime = _thisCourse.Start.AddDays(-7)
+                        //NotifyTime = DateTime.Now.AddSeconds(5) // debug
                     }
                 };
 
@@ -107,7 +108,8 @@ namespace Asil_C971
                     Description = $"{_thisCourse.Title} ends this week",
                     Schedule = new NotificationRequestSchedule
                     {
-                        NotifyTime = _thisCourse.End.AddDays(-7) // tested with DateTime.Now.AddSeconds(7)
+                        NotifyTime = _thisCourse.End.AddDays(-7)
+                        //NotifyTime = DateTime.Now.AddSeconds(7) // debug
                     }
                 };
 
@@ -121,19 +123,34 @@ namespace Asil_C971
                 foreach (var t in testList)
                 {
                     LocalNotificationCenter.Current.Cancel(t.Id + 200);
+                    LocalNotificationCenter.Current.Cancel(t.Id + 300);
 
-                    var testNotif = new NotificationRequest
+                    var testEndNotification = new NotificationRequest
                     {
                         NotificationId = t.Id + 200,
                         Title = "Assessment Due",
                         Description = $"{t.Title} is due this week",
                         Schedule = new NotificationRequestSchedule
                         {
-                            NotifyTime = t.End.AddDays(-7) // tested with DateTime.Now.AddSeconds(10)
+                            NotifyTime = t.End.AddDays(-7)
+                            //NotifyTime = DateTime.Now.AddSeconds(10) // debug
                         }
                     };
 
-                    await LocalNotificationCenter.Current.Show(testNotif);
+                    var testStartNotification = new NotificationRequest
+                    {
+                        NotificationId = t.Id + 300,
+                        Title = "Assessment starting soon", // almost forgot
+                        Description = $"{t.Title} starts this week",
+                        Schedule = new NotificationRequestSchedule
+                        {
+                            NotifyTime = t.Start.AddDays(-7)
+                            //NotifyTime = DateTime.Now.AddSeconds(12) // debug
+                        }
+                    };
+
+                    await LocalNotificationCenter.Current.Show(testEndNotification);
+                    await LocalNotificationCenter.Current.Show(testStartNotification);
                 }
                 priornotif = true;
             }
@@ -156,6 +173,7 @@ namespace Asil_C971
             {
                 Type = newtype,
                 Title = newtype ? "Objective Assessment" : "Performance Assessment",
+                Start = _thisCourse.Start.AddSeconds(1),
                 End = _thisCourse.End.AddSeconds(-1),
                 classId = _thisCourse.Id
             };
@@ -196,7 +214,7 @@ namespace Asil_C971
             var element = (BindableObject)sender;
             if (element.BindingContext is test t)
             {
-                if ((_thisCourse.End < t.End) || (_thisCourse.Start > t.End))
+                if ((_thisCourse.End < t.End) || (_thisCourse.Start > t.End) || (_thisCourse.Start > t.Start) || (_thisCourse.End < t.Start))
                 {
                     await DisplayAlert("Invalid Entry", "Assessment due dates must be within class date range", "OK");
                     await testsLoad();
