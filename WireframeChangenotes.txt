@@ -1,0 +1,5 @@
+I didn't create a course description segment. I'm not sure why I included it in the wireframe, I think I just assumed it would be necessary.
+I added an Instructor: label to simplify the readability of the instructor section of the course detail page.
+I added a start date in addition to the due date in the detailed class view, as I'm not sure whether it is expected.
+Finally, I added a manual save button for more validation clarity in the course detail view. It seemed like it would be frustrating if error messages popped up while editing instructor details.
+Otherwise, I believe there are no other significant changes.
