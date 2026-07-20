@@ -12,7 +12,7 @@ namespace Asil_C971
         private readonly dbService _db;
         public ObservableCollection<course> courseList { get; set; } = new ObservableCollection<course>();
         private readonly List<course> selectedCourse = new List<course>();
-        private RadioButton _radio;
+        private RadioButton? _radio;
 
         private term _thisTerm;
 
@@ -62,6 +62,11 @@ namespace Asil_C971
 
             await _db.saveCourse(newCourse);
             courseList.Add(newCourse);
+            if (_radio != null)
+            {
+                _radio.IsChecked = false;
+                _radio = null;
+            }
         }
 
         private void Checked(object sender, CheckedChangedEventArgs e)
@@ -90,6 +95,11 @@ namespace Asil_C971
                 courseList.Remove(c);
             }
             selectedCourse.Clear();
+            if (_radio != null)
+            {
+                _radio.IsChecked = false;
+                _radio = null;
+            }
         }
 
         private async void courseEdited(object sender, EventArgs e)
@@ -105,6 +115,11 @@ namespace Asil_C971
                 }
                 await _db.saveCourse(c);
             }
+            if (_radio != null)
+            {
+                _radio.IsChecked = false;
+                _radio = null;
+            }
         }
         private async void termEdited(object sender, EventArgs e)
         {
@@ -117,6 +132,11 @@ namespace Asil_C971
                     return;
                 }
                 await _db.saveTerm(t);
+            }
+            if (_radio != null)
+            {
+                _radio.IsChecked = false;
+                _radio = null;
             }
         }
         private async void classClick(object sender, EventArgs e)

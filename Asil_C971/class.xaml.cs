@@ -11,7 +11,7 @@ namespace Asil_C971
         private course _thisCourse;
         public ObservableCollection<test> testList { get; set; } = new ObservableCollection<test>();
         private readonly List<test> thisTest = new List<test>();
-        private RadioButton _radio;
+        private RadioButton? _radio;
         public Class(course c)
         {
             InitializeComponent();
@@ -173,13 +173,18 @@ namespace Asil_C971
             {
                 Type = newtype,
                 Title = newtype ? "Objective Assessment" : "Performance Assessment",
-                Start = _thisCourse.Start.AddSeconds(1),
-                End = _thisCourse.End.AddSeconds(-1),
+                Start = _thisCourse.Start.Date,
+                End = _thisCourse.End.Date,
                 classId = _thisCourse.Id
             };
 
             await _db.saveTests(newTest);
             testList.Add(newTest);
+            if (_radio != null)
+            {
+                _radio.IsChecked = false;
+                _radio = null;
+            }
         }
         private void Checked(object sender, CheckedChangedEventArgs e)
         {
@@ -207,6 +212,11 @@ namespace Asil_C971
                 testList.Remove(t);
             }
             thisTest.Clear();
+            if (_radio != null)
+            {
+                _radio.IsChecked = false;
+                _radio = null;
+            }
         }
 
         private async void testEdited(object sender, EventArgs e)
@@ -214,13 +224,18 @@ namespace Asil_C971
             var element = (BindableObject)sender;
             if (element.BindingContext is test t)
             {
-                if ((_thisCourse.End < t.End) || (_thisCourse.Start > t.End) || (_thisCourse.Start > t.Start) || (_thisCourse.End < t.Start))
+                if ((_thisCourse.End.Date < t.End.Date) || (_thisCourse.Start.Date > t.End.Date) || (_thisCourse.Start.Date > t.Start.Date) || (_thisCourse.End.Date < t.Start.Date))
                 {
                     await DisplayAlert("Invalid Entry", "Assessment due dates must be within class date range", "OK");
                     await testsLoad();
                     return;
                 }
                 await _db.saveTests(t);
+            }
+            if (_radio != null)
+            {
+                _radio.IsChecked = false;
+                _radio = null;
             }
         }
 

@@ -19,7 +19,11 @@ namespace Asil_C971
         public async Task init()
         {
             if (_connection != null) return;
-
+            var directory = Path.GetDirectoryName(_databasePath);
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
             _connection = new SQLiteAsyncConnection(_databasePath);
             await _connection.CreateTableAsync<term>();
             await _connection.CreateTableAsync<course>();
