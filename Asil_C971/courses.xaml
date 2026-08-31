@@ -5,9 +5,6 @@
              Title="Courses" HideSoftInputOnTapped="True">
 
     <Grid RowDefinitions="*, Auto" Padding="25" BackgroundColor="Transparent">
-        <!-- Grid.GestureRecognizers>
-            <TapGestureRecognizer Tapped="Onemptytap" />
-        </Grid.GestureRecognizers> -->
 
         <CollectionView x:Name="coursesView" Grid.Row="0">
             <CollectionView.ItemTemplate>
@@ -34,7 +31,6 @@
         </CollectionView>
 
         <Grid Grid.Row="1" ColumnDefinitions="*, Auto" Padding="0,20,0,0">
-            <!-- All information from C1 to satisfy the requirement for a "detailed view." -->
             <Frame Grid.Column="0" BorderColor="transparent" Padding="10" CornerRadius="15" BackgroundColor="Transparent" Margin="0,0,10,0">
                 <StackLayout>
                     <Entry Text="{Binding Title}" Placeholder="Term Title" TextColor="White" FontSize="20" FontAttributes="Bold" Unfocused="termEdited" Completed="termEdited" />

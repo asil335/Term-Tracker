@@ -15,16 +15,7 @@
             <DatePicker Grid.Row="1" Grid.Column="3" Date="{Binding End}" Format="yyyy-MM-dd" TextColor="Black" />
 
             <Label Grid.Row="0" Grid.RowSpan="2" Grid.Column="4" Text="Status:" VerticalOptions="Center" TextColor="Black" Margin="10,0,0,0" />
-            <Picker Grid.Row="0" Grid.RowSpan="2" Grid.Column="5" SelectedItem="{Binding Status}" Title="Status"  TextColor="Black" WidthRequest="90" VerticalOptions="Center">
-                <Picker.ItemsSource>
-                    <x:Array Type="{x:Type x:String}">
-                        <x:String>In Progress</x:String>
-                        <x:String>Completed</x:String>
-                        <x:String>Dropped</x:String>
-                        <x:String>Plan to Take</x:String>
-                    </x:Array>
-                </Picker.ItemsSource>
-            </Picker>
+            <Picker x:Name="statusPicker" Grid.Row="0" Grid.RowSpan="2" Grid.Column="5" Title="Status" TextColor="Black" WidthRequest="90" VerticalOptions="Center" SelectedIndexChanged="updateStatus" />
         </Grid>
 
         <Grid Grid.Row="1" RowDefinitions="Auto, Auto, *" RowSpacing="20">
@@ -88,10 +79,10 @@
         <Entry Grid.Row="2" Text="{Binding Title}"
                    TextColor="Black" FontSize="20" FontAttributes="Bold"
                    HorizontalOptions="Start" VerticalOptions="End" />
-        <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="End" Spacing="10">
-            <Button Text="Delete" BackgroundColor="White" TextColor="Black" Clicked="delbtn" />
-            <Button Text="Add" BackgroundColor="White" TextColor="Black" Clicked="add" />
-            <Button Text="Save" BackgroundColor="White" TextColor="Black" Clicked="save" />
+        <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="End" VerticalOptions="Center" Spacing="10">
+            <Button Text="Delete" BackgroundColor="White" TextColor="Black" Clicked="delbtn" VerticalOptions="Center" HeightRequest="40" />
+            <Button Text="Add" BackgroundColor="White" TextColor="Black" Clicked="add" VerticalOptions="Center" HeightRequest="40" />
+            <Button Text="Save" BackgroundColor="White" TextColor="Black" Clicked="save" VerticalOptions="Center" HeightRequest="40" />
         </StackLayout>
 
     </Grid>

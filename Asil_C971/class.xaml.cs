@@ -243,6 +243,7 @@ namespace Asil_C971
         {
             base.OnAppearing();
             await testsLoad();
+            await loadStatus();
         }
 
         private async Task testsLoad()
@@ -253,6 +254,25 @@ namespace Asil_C971
             foreach (var t in list)
             {
                 testList.Add(t);
+            }
+        }
+        private async Task loadStatus()
+        {
+            var statuses = await _db.getStatuses();
+            var statusNames = new List<string>();
+            foreach (var s in statuses)
+            {
+                statusNames.Add(s.StatusType);
+            }
+            statusPicker.ItemsSource = statusNames;
+            statusPicker.SelectedItem = _thisCourse.Status;
+        }
+
+        private void updateStatus(object sender, EventArgs e)
+        {
+            if (statusPicker.SelectedItem is string selectedStatus)
+            {
+                _thisCourse.Status = selectedStatus;
             }
         }
     }

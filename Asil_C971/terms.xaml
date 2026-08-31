@@ -4,39 +4,77 @@
              x:Class="Asil_C971.terms"
              Title="Terms" HideSoftInputOnTapped="True">
 
-    <Grid RowDefinitions="*, Auto" Padding="25" BackgroundColor="Transparent">
-        <!-- Grid.GestureRecognizers>
-            <TapGestureRecognizer Tapped="Onemptytap" />
-        </Grid.GestureRecognizers> -->
+    <Grid RowDefinitions="Auto, *" Padding="25" BackgroundColor="Transparent">
+        <Grid Grid.Row="0" ColumnDefinitions="Auto, *, Auto" Margin="0,0,0,15">
+            <Button x:Name="returnBtn" Grid.Column="0" Text="Return" BackgroundColor="Black" TextColor="White" Clicked="rtrnClick" IsVisible="False" Margin="0,0,5,0"/>
+            <SearchBar x:Name="appSearchBar" Grid.Column="1" Placeholder="Search keywords..." TextChanged="onSrch" HorizontalOptions="End" />
+            <Button x:Name="filterBtn" Grid.Column="2" Text="Filters" BackgroundColor="Black" TextColor="White" Clicked="filterToggle" Margin="10,0,0,0"/>
+        </Grid>
+        <Grid x:Name="termsContainer" Grid.Row="1" RowDefinitions="*, Auto">
+            <CollectionView x:Name="termsView" Grid.Row="0">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BorderColor="Gray" Margin="0,17" Padding="10" CornerRadius="15" BackgroundColor="lightgray">
+                            <Grid ColumnDefinitions="Auto, *, Auto, Auto">
+                                <RadioButton x:Name="selectbox" Grid.Column="0" VerticalOptions="Center" CheckedChanged="Checked" />
+                                <Entry Text="{Binding Title}" TextColor="Black" Grid.Column="1" Placeholder="Term Title" VerticalOptions="Center" Unfocused="termEdited" />
+                                <StackLayout Grid.Column="2" VerticalOptions="Center" Margin="5,0">
+                                    <DatePicker Date="{Binding Start}" TextColor="Black" Format="yyyy-MM-dd" DateSelected="termEdited" />
+                                    <DatePicker Date="{Binding End}" TextColor="Black" Format="yyyy-MM-dd" DateSelected="termEdited" />
+                                </StackLayout>
+                                <Button Text="&gt;" Grid.Column="3" WidthRequest="45" HeightRequest="45" Clicked="coursesClick" CommandParameter="{Binding .}" />
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
-        <CollectionView x:Name="termsView" Grid.Row="0">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Frame BorderColor="Gray" Margin="0,17" Padding="10" CornerRadius="15" BackgroundColor="lightgray">
-                        <Grid ColumnDefinitions="Auto, *, Auto, Auto">
-                            <RadioButton x:Name="selectbox" Grid.Column="0" VerticalOptions="Center"
-                                    CheckedChanged="Checked" />
-
-                            <Entry Text="{Binding Title}" TextColor="Black" Grid.Column="1" Placeholder="Term Title"
-                                   VerticalOptions="Center" Unfocused="termEdited" />
-
-                           <StackLayout Grid.Column="2" VerticalOptions="Center" Margin="5,0">
-                                <DatePicker Date="{Binding Start}" TextColor="Black" Format="yyyy-MM-dd" DateSelected="termEdited" />
-                                <DatePicker Date="{Binding End}" TextColor="Black" Format="yyyy-MM-dd" DateSelected="termEdited" />
-                            </StackLayout>
-
-                            <Button Text="&gt;" Grid.Column="3" WidthRequest="45" HeightRequest="45"
-                                    Clicked="coursesClick" CommandParameter="{Binding .}" />
-                        </Grid>
-                    </Frame>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-
-        <StackLayout Grid.Row="5" Orientation="Horizontal" HorizontalOptions="End" Spacing="10" Padding="0,20,0,0">
-            <Button Text="Delete" BackgroundColor="White" TextColor="Black" Clicked="DelClick" />
-            <Button Text="Add" BackgroundColor="White" TextColor="Black" Clicked="AddClick" />
-        </StackLayout>
-
+            <StackLayout Grid.Row="1" Orientation="Horizontal" HorizontalOptions="End" Spacing="10" Padding="0,20,0,0">
+                <Button Text="Delete" BackgroundColor="White" TextColor="Black" Clicked="DelClick" />
+                <Button Text="Add" BackgroundColor="White" TextColor="Black" Clicked="AddClick" />
+            </StackLayout>
+        </Grid>
+        <Grid x:Name="searchContainer" Grid.Row="1" RowDefinitions="Auto, Auto, Auto, *" IsVisible="False">
+            <Label x:Name="reportStamp" Grid.Row="1" TextColor="White" FontAttributes="Bold" Margin="0,0,0,10" IsVisible="False" />
+            <StackLayout x:Name="filterMenu" Grid.Row="2" Margin="0,0,0,15" IsVisible="False" BackgroundColor="#333333" Padding="15">
+                <FlexLayout Wrap="Wrap" Margin="0,0,0,10">
+                    <Label Text="Include: " VerticalOptions="Center" TextColor="White" FontAttributes="Bold" Margin="0,0,1,5"/>
+                    <CheckBox x:Name="chkTerms" IsChecked="True" Color="White" CheckedChanged="filtered"/>
+                    <Label Text="Terms" VerticalOptions="Center" TextColor="White" Margin="0,0,1,5"/>
+                    <CheckBox x:Name="chkCourses" IsChecked="True" Color="White" CheckedChanged="filtered"/>
+                    <Label Text="Courses" VerticalOptions="Center" TextColor="White" Margin="0,0,1,5"/>
+                    <CheckBox x:Name="chkAssessments" IsChecked="True" Color="White" CheckedChanged="filtered"/>
+                    <Label Text="Tests" VerticalOptions="Center" TextColor="White" Margin="0,0,1,5"/>
+                </FlexLayout>
+                <FlexLayout Wrap="Wrap">
+                    <Label Text="Course Status: " VerticalOptions="Center" TextColor="White" FontAttributes="Bold" Margin="0,0,15,5"/>
+                    <Picker x:Name="pckStatus" BackgroundColor="White" TextColor="Black" WidthRequest="150" SelectedIndexChanged="filtered">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>All</x:String>
+                                <x:String>In Progress</x:String>
+                                <x:String>Completed</x:String>
+                                <x:String>Dropped</x:String>
+                                <x:String>Plan to Take</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                        <Picker.SelectedIndex>0</Picker.SelectedIndex>
+                    </Picker>
+                </FlexLayout>
+            </StackLayout>
+            <CollectionView x:Name="searchResultsView" Grid.Row="3">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BorderColor="Gray" Margin="0,5" Padding="10" CornerRadius="15" BackgroundColor="lightgray">
+                            <Grid ColumnDefinitions="*, *, Auto">
+                                <Label Grid.Column="0" Text="{Binding Title}" TextColor="Black" VerticalOptions="Center" />
+                                <Label Grid.Column="1" Text="{Binding Subtitle}" TextColor="Black" VerticalOptions="Center" />
+                                <Button Grid.Column="2" Text="&gt;" WidthRequest="45" HeightRequest="45" Clicked="srchClick" CommandParameter="{Binding Source}" />
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
     </Grid>
 </ContentPage>
